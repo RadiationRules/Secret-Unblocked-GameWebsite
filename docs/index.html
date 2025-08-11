@@ -11,14 +11,10 @@
   }
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fff;
-    /* subtle repeating apple + A+ pattern */
-    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='0' y='15' font-size='14' fill='%23cccccc' font-family='Arial'%3E%F0%9F%8D%8E%20A%2B%3C/text%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-position: center;
-    background-size: 40px 40px;
+    background: #fff;
     color: #111;
     line-height: 1.6;
+    overflow-x: hidden;
   }
   a {
     text-decoration: none;
@@ -29,12 +25,14 @@
     color: #007acc;
     outline: none;
   }
+
   /* Container */
   .container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 20px 80px;
   }
+
   /* Header */
   header {
     background: linear-gradient(135deg, #e0e7ff, #ffffff);
@@ -56,7 +54,6 @@
     display: flex;
     justify-content: center;
     gap: 30px;
-    flex-wrap: wrap;
   }
   nav a {
     font-weight: 600;
@@ -65,25 +62,29 @@
     border-radius: 6px;
     box-shadow: 0 0 0 transparent;
   }
-  nav a:hover, nav a:focus {
+  nav a:hover {
     box-shadow: 0 3px 8px rgba(0, 122, 204, 0.4);
   }
+
   /* Hero */
   .hero {
     text-align: center;
     padding: 120px 20px 100px;
-    background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1470&q=80') no-repeat center/cover;
+    background: url('https://cdn.corenexis.com/file?9929719168.jpg') no-repeat center/cover;
     position: relative;
     color: #fff;
     overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0,122,204,0.3);
   }
   .hero::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 122, 204, 0.7);
+    background: rgba(0, 122, 204, 0.6);
     mix-blend-mode: multiply;
     z-index: 0;
+    border-radius: 12px;
   }
   .hero-content {
     position: relative;
@@ -114,13 +115,13 @@
     cursor: pointer;
     box-shadow: 0 8px 15px rgba(0,122,204,0.3);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    border: none;
   }
   .btn-primary:hover, .btn-primary:focus {
     background: #005fa3;
     box-shadow: 0 10px 20px rgba(0,95,163,0.5);
     outline: none;
   }
+
   /* Sections */
   section {
     margin-bottom: 80px;
@@ -142,6 +143,7 @@
     text-align: center;
     animation: fadeIn 1s ease forwards;
   }
+
   /* Cards for info */
   .cards {
     display: flex;
@@ -159,9 +161,10 @@
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  .card:hover, .card:focus-within {
+  .card:hover, .card:focus {
     box-shadow: 0 12px 25px rgba(0,122,204,0.3);
     transform: translateY(-10px);
+    outline: none;
   }
   .card img {
     max-width: 80px;
@@ -179,35 +182,7 @@
     font-size: 1rem;
     line-height: 1.4;
   }
-  /* Animated icons - floating pencils */
-  .floating-icon {
-    position: fixed;
-    width: 60px;
-    animation: floatUpDown 6s ease-in-out infinite;
-    opacity: 0.15;
-    user-select: none;
-    pointer-events: none;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
-  }
-  .floating-icon:nth-child(1) {
-    left: 10%;
-    top: 80%;
-    animation-delay: 0s;
-  }
-  .floating-icon:nth-child(2) {
-    left: 40%;
-    top: 75%;
-    animation-delay: 2s;
-  }
-  .floating-icon:nth-child(3) {
-    left: 70%;
-    top: 82%;
-    animation-delay: 4s;
-  }
-  @keyframes floatUpDown {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-  }
+
   /* Footer */
   footer {
     background: #f0f4ff;
@@ -218,6 +193,7 @@
     border-top: 1px solid #ddd;
     letter-spacing: 1.1px;
   }
+
   /* Animations */
   @keyframes fadeInUp {
     0% {
@@ -247,14 +223,22 @@
       opacity: 1;
     }
   }
+
   /* Responsive */
   @media (max-width: 768px) {
     nav {
+      flex-wrap: wrap;
       gap: 15px;
     }
     .cards {
       flex-direction: column;
       gap: 40px;
+    }
+    .hero h1 {
+      font-size: 2.4rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
     }
   }
 </style>
@@ -262,7 +246,7 @@
 <body>
 
 <header>
-  <div class="container" role="banner">
+  <div class="container">
     <div class="logo" aria-label="iLearn logo">iLearn</div>
     <nav aria-label="Primary navigation">
       <a href="#about">About</a>
@@ -274,32 +258,32 @@
   </div>
 </header>
 
-<section class="hero" role="region" aria-label="Welcome hero">
+<section class="hero" role="banner">
   <div class="hero-content">
     <h1>Welcome to iLearn</h1>
     <p>Your best school study academy — where learning becomes an adventure!</p>
-    <button class="btn-primary" id="start-btn">Start Your Journey</button>
+    <button class="btn-primary" id="start-btn" aria-label="Start your learning journey">Start Your Journey</button>
   </div>
 </section>
 
-<div class="container" role="main">
+<div class="container">
 
   <section id="about" tabindex="0" aria-labelledby="about-heading">
     <h2 id="about-heading">About iLearn</h2>
     <p>We provide modern, fun, and effective learning programs designed to help students excel. Discover your passion and reach your full potential with our interactive resources.</p>
     <div class="cards">
       <article class="card" tabindex="0" role="article" aria-label="Interactive Learning">
-        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=80&q=80" alt="Kids raising hands in classroom" />
+        <img src="https://cdn.corenexis.com/file?9929719168.jpg" alt="Kids raising hands in classroom" />
         <h3>Interactive Learning</h3>
         <p>Engage with teachers and classmates in a supportive and dynamic environment.</p>
       </article>
       <article class="card" tabindex="0" role="article" aria-label="Personalized Study Plans">
-        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=80&q=80" alt="Student with a pencil" />
+        <img src="https://cdn.corenexis.com/file?8397269168.jpg" alt="Student holding pencil in classroom" />
         <h3>Personalized Study Plans</h3>
         <p>Customizable paths to suit your learning style and goals.</p>
       </article>
       <article class="card" tabindex="0" role="article" aria-label="Resources Library">
-        <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=80&q=80" alt="Books and school supplies" />
+        <img src="https://cdn.corenexis.com/file?7187413168.png" alt="Books and school supplies" />
         <h3>Resources Library</h3>
         <p>Access a vast collection of digital books, notes, and tutorials.</p>
       </article>
@@ -366,14 +350,9 @@
 
 </div>
 
-<footer role="contentinfo">
+<footer>
   <p>© 2025 iLearn - Best School Study Academy</p>
 </footer>
-
-<!-- Floating pencils -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Crayon-Blue.svg/60px-Crayon-Blue.svg.png" alt="" class="floating-icon" aria-hidden="true" />
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Crayon-Red.svg/60px-Crayon-Red.svg.png" alt="" class="floating-icon" aria-hidden="true" />
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Crayon-Green.svg/60px-Crayon-Green.svg.png" alt="" class="floating-icon" aria-hidden="true" />
 
 <script>
   // Admin code prompt logic
