@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>iLearn - Best School Study Academy</title>
+<style>
+  /* Theme & layout */
+  :root{
+    --bg:#071024; --panel:rgba(255,255,255,0.035); --accent:#00d4ff; --accent-2:#7ef7ff;
+    --muted:#9fb7d6; --gold:#ffd166; --glass:rgba(255,255,255,0.03);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial; background:
+    linear-gradient(180deg,#061022 0%, #04101a 60%); color:#e6f7ff; -webkit-font-smoothing:antialiased;}
+  .app{max-width:1200px;margin:18px auto;display:grid;grid-template-columns:320px 1fr;gap:18px;padding:12px;}
+  header.site{
+    grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-radius:12px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); box-shadow:0 8px 40px rgba(2,8,18,0.8);
+    border:1px solid rgba(255,255,255,0.03);
+  }
+  header .title{display:flex;gap:12px;align-items:center}
+  .logo{
+    width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#2bb8ff);
+    display:flex;align-items:center;justify-content:center;color:#002;font-weight:700;font-family:var(--mono);
+    box-shadow:0 6px 20px rgba(0,0,0,0.6);font-size:18px;
+  }
+  h1{margin:0;font-size:18px;letter-spacing:0.2px}
+  .subtitle{font-size:12px;color:var(--muted);margin-top:2px}
+  nav.tabs{display:flex;gap:8px}
+  .tab{padding:8px 12px;border-radius:8px;background:transparent;border:1px solid transparent;color:var(--muted);font-size:14px;cursor:pointer}
+  .tab.active{background:linear-gradient(90deg, rgba(0,211,255,0.12), rgba(126,247,255,0.06));color:var(--accent-2);border-color:rgba(255,255,255,0.04)}
+  /* left column (fake school site menu) */
+  .left{background:var(--panel);padding:12px;border-radius:12px;height:calc(100vh - 120px);overflow:auto;border:1px solid rgba(255,255,255,0.02)}
+  .left .section{margin-bottom:12px}
+  .left h3{margin:6px 0 6px 0;font-size:14px}
+  .menuList{display:flex;flex-direction:column;gap:8px}
+  .menuItem{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.01);cursor:pointer}
+  .menuItem .badge{font-family:var(--mono);padding:6px 8px;border-radius:6px;background:rgba(255,255,255,0.02);font-size:12px;color:var(--muted)}
+  /* center panel (game links / content) */
+  .main{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;padding:14px;min-height:70vh;border:1px solid rgba(255,255,255,0.02)}
+  .panel{background:var(--glass);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:12px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);min-height:100px;display:flex;flex-direction:column;justify-content:space-between}
+  .card h4{margin:0;font-size:15px}
+  .card p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
+  .linkBtn{display:inline-block;margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--accent);color:#001;text-decoration:none;font-weight:600}
+  /* secret admin panel button at the bottom of menu */
+  .adminHint{margin-top:18px;padding:10px;border-radius:8px;background:linear-gradient(90deg,rgba(255,255,255,0.01),transparent);text-align:center;color:var(--muted);font-size:13px}
+  .footerSmall{font-size:12px;color:var(--muted);margin-top:12px}
+  /* modal / unlock */
+  .modal{position:fixed;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(2,6,12,0.6);z-index:40}
+  .modalCard{background:#081226;padding:18px;border-radius:12px;min-width:320px;border:1px solid rgba(255,255,255,0.04)}
+  input[type="text"], input[type="password"]{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+  button.btn{padding:10px 12px;border-radius:8px;border:none;background:var(--accent);color:#001;font-weight:700;cursor:pointer}
+  /* custom scrollbar for left column */
+  .left::-webkit-scrollbar{width:10px}
+  .left::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.03);border-radius:10px}
+  /* responsive */
+  @media (max-width:900px){ .app{grid-template-columns:1fr; padding:10px} .left{height:auto;order:2} .main{order:1} header.site{flex-direction:column;gap:8px;align-items:flex-start} }
+</style>
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="site">
+      <div class="title">
+        <div class="logo">iL</div>
+        <div>
+          <h1>iLearn - Best School Study Academy</h1>
+          <div class="subtitle">Resources • Learning • Tools</div>
+        </div>
+      </div>
+      <nav class="tabs" role="navigation" aria-label="Main">
+        <button class="tab active" data-tab="home">Home</button>
+        <button class="tab" data-tab="learning">Learning</button>
+        <button class="tab" data-tab="resources">Resources</button>
+        <button class="tab" data-tab="menu">Menu</button>
+      </nav>
+    </header>
+
+    <aside class="left" id="left">
+      <div class="section">
+        <h3>Quick Links</h3>
+        <div class="menuList" id="menuList">
+          <div class="menuItem" onclick="openTab('home')"><div style="flex:1">Dashboard</div><div class="badge">safe</div></div>
+          <div class="menuItem" onclick="openTab('learning')"><div style="flex:1">Math • Science • English</div><div class="badge">study</div></div>
+          <div class="menuItem" onclick="openTab('resources')"><div style="flex:1">Printable Worksheets</div><div class="badge">pdf</div></div>
+          <div class="menuItem" onclick="openTab('menu')"><div style="flex:1">Tools & Utilities</div><div class="badge">tools</div></div>
+          <!-- many filler items to create a long scroll so Admins Only sits far down -->
+          <div style="height:18px"></div>
+          <div class="menuItem"><div style="flex:1">Calendar</div><div class="badge">edu</div></div>
+          <div class="menuItem"><div style="flex:1">Announcements</div><div class="badge">info</div></div>
+          <div class="menuItem"><div style="flex:1">Tutorials</div><div class="badge">vid</div></div>
+          <div class="menuItem"><div style="flex:1">Library</div><div class="badge">books</div></div>
+          <div class="menuItem"><div style="flex:1">Coding Lab</div><div class="badge">code</div></div>
+          <div class="menuItem"><div style="flex:1">Classroom Links</div><div class="badge">links</div></div>
+          <div class="menuItem"><div style="flex:1">Contact</div><div class="badge">help</div></div>
+        </div>
+        <div class="adminHint" id="adminHint">Menu • scroll to the bottom for staff-only area</div>
+      </div>
+
+      <div class="section panel">
+        <h3>Search</h3>
+        <input id="siteSearch" placeholder="Search resources..." oninput="filterCards(this.value)" />
+      </div>
+
+      <div class="footerSmall">© iLearn Academy — Tools for study & fun</div>
+
+      <!-- admins only revealed link sits visually at the very bottom -->
+      <div style="height:22px"></div>
+      <div id="adminZone" style="margin-top:14px">
+        <div class="menuItem" id="adminsOnly" style="opacity:0.9; border-top:1px dashed rgba(255,255,255,0.02); margin-top:12px; cursor:pointer;" onclick="openAdminModal()">
+          <div style="flex:1"><strong>Admins Only</strong><div class="small" style="color:var(--muted)">Staff access (restricted)</div></div>
+          <div class="badge">locked</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main" id="main">
+      <div id="contentHome">
+        <div class="panel">
+          <h2>Welcome to iLearn</h2>
+          <p class="small">A friendly place for lessons, resources, and tools. Use the menu to find printable worksheets, tutorials, and classroom links.</p>
+        </div>
+
+        <div class="cards" id="cards">
+          <div class="card">
+            <div>
+              <h4>Math Basics</h4>
+              <p>Interactive lessons and practice problems for grades 4–8.</p>
+            </div>
+            <a class="linkBtn" href="#" onclick="alert('Open Math')">Open</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>Science Lab</h4>
+              <p>Mini experiments and short videos for class demonstrations.</p>
+            </div>
+            <a class="linkBtn" href="#" onclick="alert('Open Science')">Open</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>English Writing</h4>
+              <p>Writing prompts and grammar exercises.</p>
+            </div>
+            <a class="linkBtn" href="#" onclick="alert('Open English')">Open</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>Coding Lab</h4>
+              <p>Beginner-friendly tutorials and examples.</p>
+            </div>
+            <a class="linkBtn" href="#" onclick="alert('Open Coding')">Open</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="contentGames" style="display:none">
+        <div class="panel">
+          <h2>Games Vault — Staff Access</h2>
+          <p class="small">Authorized access only. This collection links to many popular online games and unblocked games portals for testing and fun.</p>
+        </div>
+
+        <div class="cards" id="gamesGrid" style="margin-top:12px">
+          <!-- example game tiles: replace or add your own links -->
+          <div class="card">
+            <div>
+              <h4>Krunker.io</h4>
+              <p>Fast first-person browser shooter.</p>
+            </div>
+            <a class="linkBtn" href="https://krunker.io" target="_blank" rel="noopener">Play</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>Slither.io</h4>
+              <p>Classic snake/io action.</p>
+            </div>
+            <a class="linkBtn" href="https://slither.io" target="_blank" rel="noopener">Play</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>Agar.io</h4>
+              <p>Eat cells, grow big.</p>
+            </div>
+            <a class="linkBtn" href="https://agar.io" target="_blank" rel="noopener">Play</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>Diep.io</h4>
+              <p>Twin-stick shooter with tanks.</p>
+            </div>
+            <a class="linkBtn" href="https://diep.io" target="_blank" rel="noopener">Play</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>Unblocked Games (example)</h4>
+              <p>Portal that aggregates many playable games (may or may not be accessible on your network).</p>
+            </div>
+            <a class="linkBtn" href="https://sites.google.com/site/unblockedgames77/" target="_blank" rel="noopener">Open</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>Coolmath Games</h4>
+              <p>Mathy and puzzle games.</p>
+            </div>
+            <a class="linkBtn" href="https://www.coolmathgames.com" target="_blank" rel="noopener">Open</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>Shell Shockers</h4>
+              <p>Egg-themed shooter.</p>
+            </div>
+            <a class="linkBtn" href="https://shellshock.io" target="_blank" rel="noopener">Play</a>
+          </div>
+
+          <div class="card">
+            <div>
+              <h4>More...</h4>
+              <p>Add the links you prefer — these are examples.</p>
+            </div>
+            <a class="linkBtn" href="#" onclick="alert('Add your favorite game links to the HTML')">Edit</a>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- admin unlock modal -->
+  <div id="modalWrap" style="display:none" class="modal" aria-hidden="true">
+    <div class="modalCard">
+      <h3 style="margin-top:0">Staff Access — Enter Code</h3>
+      <p class="small" style="margin-bottom:8px">Enter the admin code to unlock the Games Vault.</p>
+      <input id="adminCode" type="password" placeholder="Enter admin code" />
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn" onclick="tryAdminCode()">Unlock</button>
+        <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)" onclick="closeModal()">Cancel</button>
+      </div>
+      <div id="unlockStatus" class="small" style="margin-top:8px;color:var(--muted)"></div>
+    </div>
+  </div>
+
+<script>
+  // client logic: tabs, admin unlock, storing unlock in localStorage
+  const TABS = document.querySelectorAll('.tab');
+  const panels = { home: document.getElementById('contentHome'), games: document.getElementById('contentGames') };
+  const modal = document.getElementById('modalWrap');
+  const ADMIN_CODE = 'RadiationRules'; // <-- secret code per your request
+  const STORAGE_KEY = 'ilearn_games_unlocked';
+
+  // Tab switching
+  function openTab(name){
+    TABS.forEach(t=>t.classList.toggle('active', t.dataset.tab === name));
+    // show appropriate content
+    panels.home.style.display = (name === 'home' || name === 'learning' || name === 'resources' || name === 'menu') ? '' : 'none';
+    // if switching to menu show instructions
+    if(name === 'menu'){ panels.home.style.display = ''; }
+  }
+  TABS.forEach(t=>t.addEventListener('click', ()=>openTab(t.dataset.tab)));
+
+  // admin modal opens when clicking Admins Only
+  function openAdminModal(){
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    document.getElementById('adminCode').value = '';
+    document.getElementById('unlockStatus').textContent = '';
+    document.getElementById('adminCode').focus();
+  }
+  function closeModal(){ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); }
+
+  // try code: if correct, reveal games vault view
+  function tryAdminCode(){
+    const v = document.getElementById('adminCode').value.trim();
+    if(!v){ document.getElementById('unlockStatus').textContent = 'Please enter the code.'; return; }
+    if(v === ADMIN_CODE){
+      localStorage.setItem(STORAGE_KEY, '1');
+      revealGamesVault(true);
+      closeModal();
+      alert('Access granted — Games Vault unlocked.');
+    } else {
+      document.getElementById('unlockStatus').textContent = 'Incorrect code.';
+    }
+  }
+
+  function revealGamesVault(forceShow){
+    const unlocked = localStorage.getItem(STORAGE_KEY) === '1' || forceShow;
+    if(unlocked){
+      // show the games panel and change header slightly
+      document.getElementById('contentGames').style.display = '';
+      // switch to the games view
+      TABS.forEach(t=>t.classList.toggle('active', false));
+      // visually mark home tab still active but show games
+      panels.home.style.display = 'none';
+      document.querySelector('nav.tabs').insertAdjacentHTML('beforeend', '<button class="tab active" data-tab="games">Games Vault</button>');
+      // ensure the games tab works if clicked
+      document.querySelectorAll('nav.tabs .tab').forEach(t => {
+        t.onclick = () => {
+          // if games tab clicked, show games
+          const tabName = t.dataset.tab;
+          const showGames = tabName === 'games';
+          panels.home.style.display = showGames ? 'none' : '';
+          panels.games.style.display = showGames ? '' : 'none';
+          document.querySelectorAll('nav.tabs .tab').forEach(x => x.classList.toggle('active', x === t));
+        };
+      });
+      // immediately switch to games
+      panels.games.style.display = '';
+      // add an obvious secret header change (keeps same site header)
+      document.querySelector('.subtitle').textContent = '🔒 Staff Portal • Games Vault';
+      // hide the Admins Only button to avoid accidental reuse
+      const adminsEl = document.getElementById('adminsOnly');
+      if(adminsEl) adminsEl.style.display = 'none';
+    }
+  }
+
+  // check on load
+  document.addEventListener('DOMContentLoaded', ()=>{
+    if(localStorage.getItem(STORAGE_KEY) === '1') revealGamesVault(true);
+  });
+
+  // search filter for cards (simple)
+  function filterCards(q){
+    q = (q||'').toLowerCase();
+    document.querySelectorAll('#cards .card').forEach(card => {
+      const text = (card.innerText||'').toLowerCase();
+      card.style.display = text.indexOf(q) >= 0 ? '' : 'none';
+    });
+  }
+
+  // small helper: allow tapping admin area and scroll into view on mobile
+  document.getElementById('adminHint').addEventListener('click', ()=> {
+    const el = document.getElementById('adminsOnly');
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    // pulse highlight
+    el.style.boxShadow = '0 6px 30px rgba(0,212,255,0.08)';
+    setTimeout(()=>el.style.boxShadow = '', 1300);
+  });
+
+  // keyboard shortcut: type "RadiationRules" anywhere to auto-unlock (convenience)
+  let keyBuffer = '';
+  window.addEventListener('keyup', (e)=>{
+    if(e.key && e.key.length === 1) {
+      keyBuffer += e.key;
+      if(keyBuffer.length > 30) keyBuffer = keyBuffer.slice(-30);
+      if(keyBuffer.indexOf(ADMIN_CODE) !== -1){ localStorage.setItem(STORAGE_KEY,'1'); revealGamesVault(true); alert('Auto-unlocked: Games Vault'); keyBuffer = ''; }
+    }
+  });
+</script>
+</body>
+</html>
