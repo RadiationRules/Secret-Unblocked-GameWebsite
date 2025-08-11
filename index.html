@@ -1,359 +1,686 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" >
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>iLearn - Best School Study Academy</title>
-<style>
-  /* Theme & layout */
-  :root{
-    --bg:#071024; --panel:rgba(255,255,255,0.035); --accent:#00d4ff; --accent-2:#7ef7ff;
-    --muted:#9fb7d6; --gold:#ffd166; --glass:rgba(255,255,255,0.03);
-    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
-  }
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial; background:
-    linear-gradient(180deg,#061022 0%, #04101a 60%); color:#e6f7ff; -webkit-font-smoothing:antialiased;}
-  .app{max-width:1200px;margin:18px auto;display:grid;grid-template-columns:320px 1fr;gap:18px;padding:12px;}
-  header.site{
-    grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-radius:12px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); box-shadow:0 8px 40px rgba(2,8,18,0.8);
-    border:1px solid rgba(255,255,255,0.03);
-  }
-  header .title{display:flex;gap:12px;align-items:center}
-  .logo{
-    width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#2bb8ff);
-    display:flex;align-items:center;justify-content:center;color:#002;font-weight:700;font-family:var(--mono);
-    box-shadow:0 6px 20px rgba(0,0,0,0.6);font-size:18px;
-  }
-  h1{margin:0;font-size:18px;letter-spacing:0.2px}
-  .subtitle{font-size:12px;color:var(--muted);margin-top:2px}
-  nav.tabs{display:flex;gap:8px}
-  .tab{padding:8px 12px;border-radius:8px;background:transparent;border:1px solid transparent;color:var(--muted);font-size:14px;cursor:pointer}
-  .tab.active{background:linear-gradient(90deg, rgba(0,211,255,0.12), rgba(126,247,255,0.06));color:var(--accent-2);border-color:rgba(255,255,255,0.04)}
-  /* left column (fake school site menu) */
-  .left{background:var(--panel);padding:12px;border-radius:12px;height:calc(100vh - 120px);overflow:auto;border:1px solid rgba(255,255,255,0.02)}
-  .left .section{margin-bottom:12px}
-  .left h3{margin:6px 0 6px 0;font-size:14px}
-  .menuList{display:flex;flex-direction:column;gap:8px}
-  .menuItem{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.01);cursor:pointer}
-  .menuItem .badge{font-family:var(--mono);padding:6px 8px;border-radius:6px;background:rgba(255,255,255,0.02);font-size:12px;color:var(--muted)}
-  /* center panel (game links / content) */
-  .main{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;padding:14px;min-height:70vh;border:1px solid rgba(255,255,255,0.02)}
-  .panel{background:var(--glass);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:12px}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);min-height:100px;display:flex;flex-direction:column;justify-content:space-between}
-  .card h4{margin:0;font-size:15px}
-  .card p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
-  .linkBtn{display:inline-block;margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--accent);color:#001;text-decoration:none;font-weight:600}
-  /* secret admin panel button at the bottom of menu */
-  .adminHint{margin-top:18px;padding:10px;border-radius:8px;background:linear-gradient(90deg,rgba(255,255,255,0.01),transparent);text-align:center;color:var(--muted);font-size:13px}
-  .footerSmall{font-size:12px;color:var(--muted);margin-top:12px}
-  /* modal / unlock */
-  .modal{position:fixed;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(2,6,12,0.6);z-index:40}
-  .modalCard{background:#081226;padding:18px;border-radius:12px;min-width:320px;border:1px solid rgba(255,255,255,0.04)}
-  input[type="text"], input[type="password"]{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-  button.btn{padding:10px 12px;border-radius:8px;border:none;background:var(--accent);color:#001;font-weight:700;cursor:pointer}
-  /* custom scrollbar for left column */
-  .left::-webkit-scrollbar{width:10px}
-  .left::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.03);border-radius:10px}
-  /* responsive */
-  @media (max-width:900px){ .app{grid-template-columns:1fr; padding:10px} .left{height:auto;order:2} .main{order:1} header.site{flex-direction:column;gap:8px;align-items:flex-start} }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>iLearn - Best School Study Academy</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+    :root {
+      --bg: #0f172a;
+      --panel: rgba(255,255,255,0.05);
+      --accent: #00d4ff;
+      --accent-light: #7ef7ff;
+      --text-light: #e6f7ff;
+      --muted: #9fb7d6;
+      --gold: #ffd166;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+      --pencil-white: #fff;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; 
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #061022 0%, #04101a 60%);
+      color: var(--text-light);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-y: scroll;
+      min-height: 100vh;
+    }
+    .app {
+      max-width: 1200px;
+      margin: 18px auto 40px auto;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      padding: 12px;
+      min-height: 80vh;
+    }
+    header.site {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      box-shadow: 0 8px 40px rgba(2,8,18,0.8);
+      border: 1px solid rgba(255,255,255,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header .title {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #2bb8ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #002c40;
+      font-weight: 700;
+      font-family: var(--mono);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+      font-size: 20px;
+      user-select: none;
+    }
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0.3px;
+      user-select: none;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+      user-select: none;
+    }
+    nav.tabs {
+      display: flex;
+      gap: 10px;
+    }
+    .tab {
+      padding: 9px 14px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 15px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+    .tab:hover {
+      color: var(--accent-light);
+      border-color: rgba(126,247,255,0.2);
+      background: rgba(0,212,255,0.06);
+    }
+    .tab.active {
+      background: linear-gradient(90deg, rgba(0,211,255,0.12), rgba(126,247,255,0.06));
+      color: var(--accent-light);
+      border-color: rgba(255,255,255,0.07);
+      font-weight: 700;
+    }
+    /* Left sidebar */
+    .left {
+      background: var(--panel);
+      padding: 14px 16px;
+      border-radius: 14px;
+      height: calc(100vh - 120px);
+      overflow-y: auto;
+      border: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      scroll-behavior: smooth;
+    }
+    .left::-webkit-scrollbar {
+      width: 11px;
+    }
+    .left::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .left::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.08);
+      border-radius: 14px;
+      border: 3px solid transparent;
+      background-clip: content-box;
+    }
+    .menuList {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 24px;
+      flex: 1 0 auto;
+    }
+    .menuItem {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.02);
+      cursor: pointer;
+      transition: background-color 0.3s, border-color 0.3s;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--muted);
+      user-select: none;
+      justify-content: space-between;
+    }
+    .menuItem:hover {
+      background: rgba(0,212,255,0.12);
+      border-color: rgba(0,212,255,0.3);
+      color: var(--accent-light);
+    }
+    .badge {
+      font-family: var(--mono);
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+      font-size: 12px;
+      color: var(--muted);
+      user-select: none;
+    }
+    .adminHint {
+      margin-top: 20px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: linear-gradient(90deg,rgba(255,255,255,0.02),transparent);
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+      font-style: italic;
+    }
+    /* Main content */
+    .main {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius: 14px;
+      padding: 18px 20px;
+      min-height: 70vh;
+      border: 1px solid rgba(255,255,255,0.05);
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel {
+      background: var(--panel);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.04);
+      margin-bottom: 20px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+      gap: 14px;
+      margin-top: 14px;
+      user-select: text;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.03);
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      user-select: text;
+    }
+    .card h4 {
+      margin: 0;
+      font-size: 17px;
+      user-select: text;
+    }
+    .card p {
+      margin: 8px 0 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      user-select: text;
+    }
+    .linkBtn {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #002c40;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+    .linkBtn:hover {
+      background: #00b3ff;
+    }
+    /* modal */
+    .modal {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(2,6,12,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 110;
+      user-select: none;
+    }
+    .modalCard {
+      background: #081226;
+      padding: 24px 28px;
+      border-radius: 16px;
+      min-width: 340px;
+      border: 1px solid rgba(255,255,255,0.07);
+      user-select: none;
+      box-shadow: 0 12px 40px rgba(0, 212, 255, 0.15);
+    }
+    input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: transparent;
+      color: var(--text-light);
+      font-size: 15px;
+      outline-offset: 2px;
+      font-family: 'Inter', sans-serif;
+      user-select: text;
+    }
+    button.btn {
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: none;
+      background: var(--accent);
+      color: #002c40;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      font-size: 16px;
+      transition: background-color 0.25s ease;
+    }
+    button.btn:hover {
+      background: #00b3ff;
+    }
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+      user-select: none;
+    }
+    /* Pencil SVG decorative */
+    .pencil-decor {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      width: 90px;
+      opacity: 0.09;
+      user-select: none;
+      pointer-events: none;
+      transform: rotate(-12deg);
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.08));
+    }
+    /* Header animation */
+    .header-animate {
+      font-weight: 900;
+      font-size: 28px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--accent-light);
+      margin-top: 10px;
+      text-shadow: 0 0 8px var(--accent-light);
+      animation: glowPulse 3s ease-in-out infinite;
+      user-select: none;
+    }
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 10px var(--accent-light), 0 0 20px var(--accent-light); }
+      50% { text-shadow: 0 0 20px #00fff7, 0 0 30px #00fff7; }
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .app {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+      .left {
+        height: auto;
+        order: 2;
+      }
+      .main {
+        order: 1;
+      }
+      header.site {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+        position: sticky;
+        top: 0;
+      }
+    }
+    /* Kids raising hands images grid */
+    .hero-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin-top: 22px;
+      user-select: none;
+    }
+    .hero-images img {
+      border-radius: 14px;
+      width: calc(33% - 14px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      filter: brightness(0.95);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .hero-images img:hover {
+      transform: scale(1.05);
+      filter: brightness(1);
+    }
+    @media (max-width: 600px) {
+      .hero-images img {
+        width: calc(50% - 12px);
+      }
+    }
+
+  </style>
 </head>
 <body>
   <div class="app" id="app">
-    <header class="site">
+    <header class="site" role="banner" aria-label="Site Header">
       <div class="title">
-        <div class="logo">iL</div>
+        <div class="logo" aria-hidden="true">iL</div>
         <div>
           <h1>iLearn - Best School Study Academy</h1>
-          <div class="subtitle">Resources • Learning • Tools</div>
+          <div class="subtitle header-animate" aria-live="polite" aria-atomic="true">Start Your Journey Today</div>
         </div>
       </div>
-      <nav class="tabs" role="navigation" aria-label="Main">
-        <button class="tab active" data-tab="home">Home</button>
-        <button class="tab" data-tab="learning">Learning</button>
-        <button class="tab" data-tab="resources">Resources</button>
-        <button class="tab" data-tab="menu">Menu</button>
+      <nav class="tabs" role="navigation" aria-label="Primary navigation">
+        <button class="tab active" data-tab="home" aria-selected="true">Home</button>
+        <button class="tab" data-tab="learning" aria-selected="false">Learning</button>
+        <button class="tab" data-tab="resources" aria-selected="false">Resources</button>
+        <button class="tab" data-tab="menu" aria-selected="false">Menu</button>
       </nav>
     </header>
 
-    <aside class="left" id="left">
-      <div class="section">
-        <h3>Quick Links</h3>
-        <div class="menuList" id="menuList">
-          <div class="menuItem" onclick="openTab('home')"><div style="flex:1">Dashboard</div><div class="badge">safe</div></div>
-          <div class="menuItem" onclick="openTab('learning')"><div style="flex:1">Math • Science • English</div><div class="badge">study</div></div>
-          <div class="menuItem" onclick="openTab('resources')"><div style="flex:1">Printable Worksheets</div><div class="badge">pdf</div></div>
-          <div class="menuItem" onclick="openTab('menu')"><div style="flex:1">Tools & Utilities</div><div class="badge">tools</div></div>
-          <!-- many filler items to create a long scroll so Admins Only sits far down -->
-          <div style="height:18px"></div>
-          <div class="menuItem"><div style="flex:1">Calendar</div><div class="badge">edu</div></div>
-          <div class="menuItem"><div style="flex:1">Announcements</div><div class="badge">info</div></div>
-          <div class="menuItem"><div style="flex:1">Tutorials</div><div class="badge">vid</div></div>
-          <div class="menuItem"><div style="flex:1">Library</div><div class="badge">books</div></div>
-          <div class="menuItem"><div style="flex:1">Coding Lab</div><div class="badge">code</div></div>
-          <div class="menuItem"><div style="flex:1">Classroom Links</div><div class="badge">links</div></div>
-          <div class="menuItem"><div style="flex:1">Contact</div><div class="badge">help</div></div>
-        </div>
-        <div class="adminHint" id="adminHint">Menu • scroll to the bottom for staff-only area</div>
+    <aside class="left" id="left" role="complementary" aria-label="Side navigation">
+      <div class="menuList" id="menuList" tabindex="0">
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false" onclick="openTab('home')">Dashboard <div class="badge">safe</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false" onclick="openTab('learning')">Math • Science • English <div class="badge">study</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false" onclick="openTab('resources')">Printable Worksheets <div class="badge">pdf</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false" onclick="openTab('menu')">Tools & Utilities <div class="badge">tools</div></div>
+        <!-- filler items -->
+        <div style="height:16px"></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false">Calendar <div class="badge">edu</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false">Announcements <div class="badge">info</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false">Tutorials <div class="badge">vid</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false">Library <div class="badge">books</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false">Coding Lab <div class="badge">code</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false">Classroom Links <div class="badge">links</div></div>
+        <div class="menuItem" tabindex="0" role="button" aria-pressed="false">Contact <div class="badge">help</div></div>
       </div>
-
-      <div class="section panel">
-        <h3>Search</h3>
-        <input id="siteSearch" placeholder="Search resources..." oninput="filterCards(this.value)" />
+      <div class="adminHint" id="adminHint" tabindex="0" role="button" aria-label="Scroll to staff only area">
+        Scroll to the bottom for staff-only area ↓
       </div>
-
-      <div class="footerSmall">© iLearn Academy — Tools for study & fun</div>
-
-      <!-- admins only revealed link sits visually at the very bottom -->
       <div style="height:22px"></div>
-      <div id="adminZone" style="margin-top:14px">
-        <div class="menuItem" id="adminsOnly" style="opacity:0.9; border-top:1px dashed rgba(255,255,255,0.02); margin-top:12px; cursor:pointer;" onclick="openAdminModal()">
-          <div style="flex:1"><strong>Admins Only</strong><div class="small" style="color:var(--muted)">Staff access (restricted)</div></div>
+      <div id="adminZone" tabindex="0" role="region" aria-label="Staff only section">
+        <div class="menuItem" id="adminsOnly" tabindex="0" role="button" aria-pressed="false" onclick="openAdminModal()" aria-label="Admins only staff access link">
+          <strong>Admins Only</strong>
           <div class="badge">locked</div>
         </div>
       </div>
     </aside>
 
-    <main class="main" id="main">
+    <main class="main" role="main" id="main" tabindex="0" aria-live="polite" aria-atomic="true">
       <div id="contentHome">
         <div class="panel">
           <h2>Welcome to iLearn</h2>
           <p class="small">A friendly place for lessons, resources, and tools. Use the menu to find printable worksheets, tutorials, and classroom links.</p>
         </div>
-
-        <div class="cards" id="cards">
-          <div class="card">
-            <div>
-              <h4>Math Basics</h4>
-              <p>Interactive lessons and practice problems for grades 4–8.</p>
-            </div>
-            <a class="linkBtn" href="#" onclick="alert('Open Math')">Open</a>
-          </div>
-
-          <div class="card">
-            <div>
-              <h4>Science Lab</h4>
-              <p>Mini experiments and short videos for class demonstrations.</p>
-            </div>
-            <a class="linkBtn" href="#" onclick="alert('Open Science')">Open</a>
-          </div>
-
-          <div class="card">
-            <div>
-              <h4>English Writing</h4>
-              <p>Writing prompts and grammar exercises.</p>
-            </div>
-            <a class="linkBtn" href="#" onclick="alert('Open English')">Open</a>
-          </div>
-
-          <div class="card">
-            <div>
-              <h4>Coding Lab</h4>
-              <p>Beginner-friendly tutorials and examples.</p>
-            </div>
-            <a class="linkBtn" href="#" onclick="alert('Open Coding')">Open</a>
-          </div>
+        <div class="hero-images" aria-label="Kids raising hands images">
+          <img src="https://images.unsplash.com/photo-1574180045827-681f8a1a9622?auto=format&fit=crop&w=400&q=80" alt="Kids raising hands in classroom" />
+          <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80" alt="Students raising hands" />
+          <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=400&q=80" alt="Happy kids in school" />
+        </div>
+        <div class="panel">
+          <h3 class="header-animate">Start Your Journey</h3>
+          <p>Explore interactive lessons, print worksheets, and use study tools to boost your learning.</p>
+        </div>
+      </div>
+      <div id="contentLearning" hidden>
+        <div class="panel">
+          <h2>Learning</h2>
+          <p>Discover topics in Math, Science, and English with helpful guides and quizzes.</p>
+          <ul>
+            <li><a href="https://www.khanacademy.org/math" target="_blank" rel="noopener noreferrer" class="linkBtn">Khan Academy Math</a></li>
+            <li><a href="https://www.khanacademy.org/science" target="_blank" rel="noopener noreferrer" class="linkBtn">Khan Academy Science</a></li>
+            <li><a href="https://www.khanacademy.org/ela" target="_blank" rel="noopener noreferrer" class="linkBtn">Khan Academy English</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="contentResources" hidden>
+        <div class="panel">
+          <h2>Resources</h2>
+          <p>Download printable worksheets and PDFs to help with your studies.</p>
+          <ul>
+            <li><a href="https://www.education.com/worksheets/" target="_blank" rel="noopener noreferrer" class="linkBtn">Education Worksheets</a></li>
+            <li><a href="https://www.twinkl.com/resources" target="_blank" rel="noopener noreferrer" class="linkBtn">Twinkl Resources</a></li>
+            <li><a href="https://www.pdfdrive.com/" target="_blank" rel="noopener noreferrer" class="linkBtn">PDF Drive</a></li>
+          </ul>
+        </div>
+      </div>
+      <div id="contentMenu" hidden>
+        <div class="panel">
+          <h2>Tools & Utilities</h2>
+          <p>Helpful tools to support your school work.</p>
+          <ul>
+            <li><a href="https://www.desmos.com/calculator" target="_blank" rel="noopener noreferrer" class="linkBtn">Desmos Graphing Calculator</a></li>
+            <li><a href="https://www.wolframalpha.com/" target="_blank" rel="noopener noreferrer" class="linkBtn">Wolfram Alpha</a></li>
+            <li><a href="https://www.typing.com/student/" target="_blank" rel="noopener noreferrer" class="linkBtn">Typing.com</a></li>
+          </ul>
         </div>
       </div>
 
-      <div id="contentGames" style="display:none">
+      <!-- Hidden Games Vault -->
+      <div id="contentGamesVault" hidden>
         <div class="panel">
-          <h2>Games Vault — Staff Access</h2>
-          <p class="small">Authorized access only. This collection links to many popular online games and unblocked games portals for testing and fun.</p>
-        </div>
-
-        <div class="cards" id="gamesGrid" style="margin-top:12px">
-          <!-- example game tiles: replace or add your own links -->
-          <div class="card">
-            <div>
+          <h2>🎮 Games Vault - Popular & Secret Shooters</h2>
+          <p>Unlocked by secret code. Enjoy these shooter and .io games safely.</p>
+          <div class="cards" role="list" aria-label="Games list">
+            <div class="card" role="listitem">
               <h4>Krunker.io</h4>
-              <p>Fast first-person browser shooter.</p>
+              <p>Fast-paced pixel FPS shooter.</p>
+              <a href="https://krunker.io/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
             </div>
-            <a class="linkBtn" href="https://krunker.io" target="_blank" rel="noopener">Play</a>
-          </div>
-
-          <div class="card">
-            <div>
-              <h4>Slither.io</h4>
-              <p>Classic snake/io action.</p>
-            </div>
-            <a class="linkBtn" href="https://slither.io" target="_blank" rel="noopener">Play</a>
-          </div>
-
-          <div class="card">
-            <div>
-              <h4>Agar.io</h4>
-              <p>Eat cells, grow big.</p>
-            </div>
-            <a class="linkBtn" href="https://agar.io" target="_blank" rel="noopener">Play</a>
-          </div>
-
-          <div class="card">
-            <div>
-              <h4>Diep.io</h4>
-              <p>Twin-stick shooter with tanks.</p>
-            </div>
-            <a class="linkBtn" href="https://diep.io" target="_blank" rel="noopener">Play</a>
-          </div>
-
-          <div class="card">
-            <div>
-              <h4>Unblocked Games (example)</h4>
-              <p>Portal that aggregates many playable games (may or may not be accessible on your network).</p>
-            </div>
-            <a class="linkBtn" href="https://sites.google.com/site/unblockedgames77/" target="_blank" rel="noopener">Open</a>
-          </div>
-
-          <div class="card">
-            <div>
-              <h4>Coolmath Games</h4>
-              <p>Mathy and puzzle games.</p>
-            </div>
-            <a class="linkBtn" href="https://www.coolmathgames.com" target="_blank" rel="noopener">Open</a>
-          </div>
-
-          <div class="card">
-            <div>
+            <div class="card" role="listitem">
               <h4>Shell Shockers</h4>
-              <p>Egg-themed shooter.</p>
+              <p>Egg-themed FPS shooter with fun weapons.</p>
+              <a href="https://shellshock.io/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
             </div>
-            <a class="linkBtn" href="https://shellshock.io" target="_blank" rel="noopener">Play</a>
+            <div class="card" role="listitem">
+              <h4>Surviv.io</h4>
+              <p>Top-down 2D battle royale shooter.</p>
+              <a href="https://surviv.io/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>Zombs Royale</h4>
+              <p>2D battle royale with zombies and weapons.</p>
+              <a href="https://zombsroyale.com/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>Bullet Force</h4>
+              <p>Modern multiplayer FPS shooter.</p>
+              <a href="https://bulletforce.com/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>MiniRoyale 2</h4>
+              <p>Low-poly battle royale FPS online.</p>
+              <a href="https://miniroyale2.io/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>Venge.io</h4>
+              <p>Fast paced 3D multiplayer shooter.</p>
+              <a href="https://venge.io/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>War Brokers</h4>
+              <p>Battle royale with vehicles and guns.</p>
+              <a href="https://warbrokers.io/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>Red Crucible</h4>
+              <p>Modern FPS with vehicles and battles.</p>
+              <a href="https://www.redcrucible.com/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>Krunker.io Mods</h4>
+              <p>Community-made mods and custom maps.</p>
+              <a href="https://krunker.io/mods" target="_blank" rel="noopener noreferrer" class="linkBtn">Explore Mods</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>Shell Shockers Mods</h4>
+              <p>Custom skins and game mods.</p>
+              <a href="https://shellshock.io/custom" target="_blank" rel="noopener noreferrer" class="linkBtn">Explore Mods</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>Secret .io Shooter</h4>
+              <p>Hidden fun fast-paced shooter game.</p>
+              <a href="https://io.itch.io/secret-shooter" target="_blank" rel="noopener noreferrer" class="linkBtn">Try It</a>
+            </div>
+            <div class="card" role="listitem">
+              <h4>Little Big Snake</h4>
+              <p>Unique snake io game with battles.</p>
+              <a href="https://littlebigsnake.com/" target="_blank" rel="noopener noreferrer" class="linkBtn">Play Now</a>
+            </div>
           </div>
-
-          <div class="card">
-            <div>
-              <h4>More...</h4>
-              <p>Add the links you prefer — these are examples.</p>
-            </div>
-            <a class="linkBtn" href="#" onclick="alert('Add your favorite game links to the HTML')">Edit</a>
+          <div style="margin-top:20px;">
+            <h3>Unblocked Games Portals</h3>
+            <ul>
+              <li><a href="https://unblockedgames333.com/" target="_blank" rel="noopener noreferrer" class="linkBtn">UnblockedGames333</a></li>
+              <li><a href="https://sites.google.com/site/unblockedgames66/" target="_blank" rel="noopener noreferrer" class="linkBtn">UnblockedGames66</a></li>
+              <li><a href="https://sites.google.com/site/unblockedgames77/" target="_blank" rel="noopener noreferrer" class="linkBtn">UnblockedGames77</a></li>
+              <li><a href="https://unblockedgamespod.com/" target="_blank" rel="noopener noreferrer" class="linkBtn">UnblockedGamesPod</a></li>
+            </ul>
           </div>
         </div>
       </div>
 
     </main>
+
   </div>
 
-  <!-- admin unlock modal -->
-  <div id="modalWrap" style="display:none" class="modal" aria-hidden="true">
+  <!-- Pencil SVG decorative -->
+  <svg class="pencil-decor" viewBox="0 0 64 64" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" >
+    <path fill="#fff" fill-opacity="0.07" d="M6 56h52L44 40 22 28 6 56z"/>
+    <path stroke="#fff" stroke-opacity="0.1" stroke-width="3" d="M10 54l24-26 10 8-24 26H10z"/>
+    <circle cx="52" cy="8" r="6" stroke="#fff" stroke-opacity="0.1" stroke-width="3"/>
+  </svg>
+
+  <!-- Admin Code Modal -->
+  <div class="modal" id="adminModal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
     <div class="modalCard">
-      <h3 style="margin-top:0">Staff Access — Enter Code</h3>
-      <p class="small" style="margin-bottom:8px">Enter the admin code to unlock the Games Vault.</p>
-      <input id="adminCode" type="password" placeholder="Enter admin code" />
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button class="btn" onclick="tryAdminCode()">Unlock</button>
-        <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)" onclick="closeModal()">Cancel</button>
+      <h3 id="modalTitle">Enter Admin Access Code</h3>
+      <input type="password" id="adminCodeInput" placeholder="Enter code" aria-describedby="modalDesc" />
+      <div style="margin-top:12px; display:flex; justify-content: space-between; gap: 10px;">
+        <button class="btn" id="adminSubmitBtn">Unlock</button>
+        <button class="btn" id="adminCancelBtn">Cancel</button>
       </div>
-      <div id="unlockStatus" class="small" style="margin-top:8px;color:var(--muted)"></div>
+      <p id="modalDesc" class="small" style="margin-top:10px;">Hint: You need the secret code to access this page.</p>
     </div>
   </div>
 
-<script>
-  // client logic: tabs, admin unlock, storing unlock in localStorage
-  const TABS = document.querySelectorAll('.tab');
-  const panels = { home: document.getElementById('contentHome'), games: document.getElementById('contentGames') };
-  const modal = document.getElementById('modalWrap');
-  const ADMIN_CODE = 'RadiationRules'; // <-- secret code per your request
-  const STORAGE_KEY = 'ilearn_games_unlocked';
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const contents = {
+      home: document.getElementById('contentHome'),
+      learning: document.getElementById('contentLearning'),
+      resources: document.getElementById('contentResources'),
+      menu: document.getElementById('contentMenu'),
+      gamesVault: document.getElementById('contentGamesVault')
+    };
+    const menuItems = document.querySelectorAll('.menuItem');
+    const adminHint = document.getElementById('adminHint');
+    const adminModal = document.getElementById('adminModal');
+    const adminCodeInput = document.getElementById('adminCodeInput');
+    const adminSubmitBtn = document.getElementById('adminSubmitBtn');
+    const adminCancelBtn = document.getElementById('adminCancelBtn');
+    const adminsOnlyBtn = document.getElementById('adminsOnly');
 
-  // Tab switching
-  function openTab(name){
-    TABS.forEach(t=>t.classList.toggle('active', t.dataset.tab === name));
-    // show appropriate content
-    panels.home.style.display = (name === 'home' || name === 'learning' || name === 'resources' || name === 'menu') ? '' : 'none';
-    // if switching to menu show instructions
-    if(name === 'menu'){ panels.home.style.display = ''; }
-  }
-  TABS.forEach(t=>t.addEventListener('click', ()=>openTab(t.dataset.tab)));
+    function openTab(name) {
+      // Hide all
+      Object.values(contents).forEach(c => c.hidden = true);
+      // Show selected
+      if (name === 'gamesVault' && !localStorage.getItem('adminUnlocked')) {
+        alert('Access denied. Please enter admin code first.');
+        return;
+      }
+      contents[name].hidden = false;
 
-  // admin modal opens when clicking Admins Only
-  function openAdminModal(){
-    modal.style.display = 'flex';
-    modal.setAttribute('aria-hidden', 'false');
-    document.getElementById('adminCode').value = '';
-    document.getElementById('unlockStatus').textContent = '';
-    document.getElementById('adminCode').focus();
-  }
-  function closeModal(){ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); }
-
-  // try code: if correct, reveal games vault view
-  function tryAdminCode(){
-    const v = document.getElementById('adminCode').value.trim();
-    if(!v){ document.getElementById('unlockStatus').textContent = 'Please enter the code.'; return; }
-    if(v === ADMIN_CODE){
-      localStorage.setItem(STORAGE_KEY, '1');
-      revealGamesVault(true);
-      closeModal();
-      alert('Access granted — Games Vault unlocked.');
-    } else {
-      document.getElementById('unlockStatus').textContent = 'Incorrect code.';
-    }
-  }
-
-  function revealGamesVault(forceShow){
-    const unlocked = localStorage.getItem(STORAGE_KEY) === '1' || forceShow;
-    if(unlocked){
-      // show the games panel and change header slightly
-      document.getElementById('contentGames').style.display = '';
-      // switch to the games view
-      TABS.forEach(t=>t.classList.toggle('active', false));
-      // visually mark home tab still active but show games
-      panels.home.style.display = 'none';
-      document.querySelector('nav.tabs').insertAdjacentHTML('beforeend', '<button class="tab active" data-tab="games">Games Vault</button>');
-      // ensure the games tab works if clicked
-      document.querySelectorAll('nav.tabs .tab').forEach(t => {
-        t.onclick = () => {
-          // if games tab clicked, show games
-          const tabName = t.dataset.tab;
-          const showGames = tabName === 'games';
-          panels.home.style.display = showGames ? 'none' : '';
-          panels.games.style.display = showGames ? '' : 'none';
-          document.querySelectorAll('nav.tabs .tab').forEach(x => x.classList.toggle('active', x === t));
-        };
+      // Update tab highlight
+      tabs.forEach(tab => {
+        if (tab.dataset.tab === name) {
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+        } else {
+          tab.classList.remove('active');
+          tab.setAttribute('aria-selected', 'false');
+        }
       });
-      // immediately switch to games
-      panels.games.style.display = '';
-      // add an obvious secret header change (keeps same site header)
-      document.querySelector('.subtitle').textContent = '🔒 Staff Portal • Games Vault';
-      // hide the Admins Only button to avoid accidental reuse
-      const adminsEl = document.getElementById('adminsOnly');
-      if(adminsEl) adminsEl.style.display = 'none';
     }
-  }
 
-  // check on load
-  document.addEventListener('DOMContentLoaded', ()=>{
-    if(localStorage.getItem(STORAGE_KEY) === '1') revealGamesVault(true);
-  });
-
-  // search filter for cards (simple)
-  function filterCards(q){
-    q = (q||'').toLowerCase();
-    document.querySelectorAll('#cards .card').forEach(card => {
-      const text = (card.innerText||'').toLowerCase();
-      card.style.display = text.indexOf(q) >= 0 ? '' : 'none';
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => openTab(tab.dataset.tab));
     });
-  }
 
-  // small helper: allow tapping admin area and scroll into view on mobile
-  document.getElementById('adminHint').addEventListener('click', ()=> {
-    const el = document.getElementById('adminsOnly');
-    el.scrollIntoView({behavior:'smooth', block:'center'});
-    // pulse highlight
-    el.style.boxShadow = '0 6px 30px rgba(0,212,255,0.08)';
-    setTimeout(()=>el.style.boxShadow = '', 1300);
-  });
+    menuItems.forEach(item => {
+      item.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          item.click();
+        }
+      });
+    });
 
-  // keyboard shortcut: type "RadiationRules" anywhere to auto-unlock (convenience)
-  let keyBuffer = '';
-  window.addEventListener('keyup', (e)=>{
-    if(e.key && e.key.length === 1) {
-      keyBuffer += e.key;
-      if(keyBuffer.length > 30) keyBuffer = keyBuffer.slice(-30);
-      if(keyBuffer.indexOf(ADMIN_CODE) !== -1){ localStorage.setItem(STORAGE_KEY,'1'); revealGamesVault(true); alert('Auto-unlocked: Games Vault'); keyBuffer = ''; }
+    adminHint.addEventListener('click', () => {
+      document.getElementById('adminZone').scrollIntoView({behavior:'smooth'});
+    });
+    adminHint.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        adminHint.click();
+      }
+    });
+
+    adminsOnlyBtn.addEventListener('click', openAdminModal);
+    adminsOnlyBtn.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        openAdminModal();
+      }
+    });
+
+    function openAdminModal() {
+      adminModal.hidden = false;
+      adminCodeInput.value = '';
+      adminCodeInput.focus();
     }
-  });
-</script>
+    function closeAdminModal() {
+      adminModal.hidden = true;
+    }
+
+    adminSubmitBtn.addEventListener('click', () => {
+      const code = adminCodeInput.value.trim();
+      if(code === 'RadiationRules') {
+        localStorage.setItem('adminUnlocked', 'true');
+        closeAdminModal();
+        openTab('gamesVault');
+      } else {
+        alert('Incorrect code. Try again.');
+        adminCodeInput.focus();
+      }
+    });
+    adminCancelBtn.addEventListener('click', () => {
+      closeAdminModal();
+    });
+
+    // On load, if unlocked, open games vault tab by default or stay on home
+    window.addEventListener('load', () => {
+      if(localStorage.getItem('adminUnlocked')) {
+        openTab('gamesVault');
+      } else {
+        openTab('home');
+      }
+    });
+  </script>
 </body>
 </html>
