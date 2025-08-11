@@ -1,0 +1,6 @@
+name = "your-project-name"       # change this to your project name (no spaces, all lowercase)
+compatibility_date = "2025-08-11"
+
+[site]
+bucket = "./docs"                # tells Wrangler to deploy your 'docs' folder
+entry-point = "workers-site"
