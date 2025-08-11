@@ -5,318 +5,408 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>iLearn - Best School Study Academy</title>
 <style>
-  /* Reset & Basics */
-  *, *::before, *::after {
-    box-sizing: border-box;
+  /* Reset & basics */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
   }
   body {
-    margin: 0; padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #fff;
-    color: #000;
-    line-height: 1.5;
+    color: #111;
+    line-height: 1.6;
     overflow-x: hidden;
+  }
+  a {
+    text-decoration: none;
+    color: #222;
+    transition: color 0.3s ease;
+  }
+  a:hover {
+    color: #007acc;
+  }
+
+  /* Container */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
   }
 
   /* Header */
   header {
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 1rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background: linear-gradient(135deg, #e0e7ff, #ffffff);
+    padding: 30px 0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
   }
-  header h1 {
-    font-weight: 900;
-    font-size: 2rem;
-    letter-spacing: 2px;
+  header .logo {
+    font-weight: 700;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    color: #007acc;
+    user-select: none;
+  }
+  nav {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
   }
   nav a {
-    margin-left: 2rem;
     font-weight: 600;
-    color: #000;
-    text-decoration: none;
-    transition: color 0.3s ease;
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 0 transparent;
   }
   nav a:hover {
-    color: #444;
+    box-shadow: 0 3px 8px rgba(0, 122, 204, 0.4);
   }
 
-  /* Main container */
-  main {
-    max-width: 960px;
-    margin: 2rem auto 5rem;
-    padding: 0 1rem;
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 120px 20px 100px;
+    background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1470&q=80') no-repeat center/cover;
+    position: relative;
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 122, 204, 0.7);
+    mix-blend-mode: multiply;
+    z-index: 0;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
+    animation: fadeInUp 1s ease forwards;
+  }
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    letter-spacing: 4px;
+    text-shadow: 0 0 8px rgba(0,0,0,0.5);
+  }
+  .hero p {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    text-shadow: 0 0 6px rgba(0,0,0,0.4);
+  }
+  .btn-primary {
+    background: #007acc;
+    color: white;
+    padding: 14px 36px;
+    font-weight: 700;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0,122,204,0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: #005fa3;
+    box-shadow: 0 10px 20px rgba(0,95,163,0.5);
   }
 
   /* Sections */
   section {
-    margin-bottom: 4rem;
+    margin-bottom: 80px;
   }
-  h2 {
-    font-weight: 900;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    border-left: 6px solid #000;
-    padding-left: 0.5rem;
+  section h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #007acc;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-align: center;
+    animation: fadeInDown 1s ease forwards;
   }
-  p {
-    font-size: 1.1rem;
-    max-width: 700px;
+  section p {
+    max-width: 720px;
+    margin: 0 auto 40px;
+    font-size: 1.15rem;
+    color: #333;
+    text-align: center;
+    animation: fadeIn 1s ease forwards;
   }
 
-  /* Classroom images */
-  .classroom-img {
-    width: 100%;
-    max-height: 420px;
-    object-fit: cover;
+  /* Cards for info */
+  .cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .card {
+    background: #f9fbff;
     border-radius: 12px;
-    margin-top: 1.5rem;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    padding: 30px 25px;
+    box-shadow: 0 5px 15px rgba(0,122,204,0.1);
+    flex: 1 1 280px;
+    max-width: 320px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    box-shadow: 0 12px 25px rgba(0,122,204,0.3);
+    transform: translateY(-10px);
+  }
+  .card img {
+    max-width: 80px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+  }
+  .card h3 {
+    font-weight: 700;
+    color: #005fa3;
+    margin-bottom: 12px;
+  }
+  .card p {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  /* Animated icons - floating pencils */
+  .floating-icon {
+    position: fixed;
+    width: 60px;
+    animation: floatUpDown 6s ease-in-out infinite;
+    opacity: 0.2;
+    user-select: none;
+    pointer-events: none;
+  }
+  .floating-icon:nth-child(1) {
+    left: 10%;
+    top: 80%;
+    animation-delay: 0s;
+  }
+  .floating-icon:nth-child(2) {
+    left: 40%;
+    top: 75%;
+    animation-delay: 2s;
+  }
+  .floating-icon:nth-child(3) {
+    left: 70%;
+    top: 82%;
+    animation-delay: 4s;
+  }
+
+  @keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
   }
 
   /* Footer */
   footer {
+    background: #f0f4ff;
     text-align: center;
-    font-size: 0.85rem;
-    color: #666;
+    padding: 30px 15px;
+    color: #555;
+    font-weight: 600;
     border-top: 1px solid #ddd;
-    padding: 1rem 0;
+    letter-spacing: 1.1px;
   }
 
-  /* Admin code modal */
-  #admin-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+  /* Animations */
+  @keyframes fadeInUp {
+    0 {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  #admin-modal.active {
-    display: flex;
+  @keyframes fadeInDown {
+    0 {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  #admin-content {
-    background: #fff;
-    padding: 2.5rem;
-    max-width: 400px;
-    width: 90%;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    text-align: center;
-  }
-  #admin-content h3 {
-    margin-top: 0;
-    font-weight: 900;
-    font-size: 1.8rem;
-  }
-  #admin-input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    font-size: 1.1rem;
-    margin-top: 1.2rem;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    outline-offset: 2px;
-    transition: border-color 0.3s ease;
-  }
-  #admin-input:focus {
-    border-color: #000;
-  }
-  .btn-group {
-    margin-top: 1.5rem;
-  }
-  button {
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1.1rem;
-    padding: 0.8rem 1.8rem;
-    border: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-  }
-  #admin-submit {
-    background: #000;
-    color: #fff;
-  }
-  #admin-submit:hover {
-    background: #222;
-  }
-  #admin-cancel {
-    background: #ccc;
-    color: #222;
-    margin-left: 1rem;
-  }
-  #admin-cancel:hover {
-    background: #bbb;
-  }
-  #admin-error {
-    color: red;
-    margin-top: 1rem;
-    font-weight: 600;
-    display: none;
-  }
-
-  /* Sections hidden by default */
-  .section-hidden {
-    display: none;
-  }
-
-  /* Links list style */
-  ul.game-list {
-    list-style: none;
-    padding-left: 0;
-    max-width: 600px;
-    margin-top: 1rem;
-  }
-  ul.game-list li {
-    margin-bottom: 0.8rem;
-  }
-  ul.game-list li a {
-    font-weight: 600;
-    color: #000;
-    text-decoration: underline;
-  }
-  ul.game-list li a:hover {
-    color: #444;
+  @keyframes fadeIn {
+    0 {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
   /* Responsive */
-  @media (max-width: 650px) {
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  @media (max-width: 768px) {
     nav {
-      margin-top: 0.5rem;
+      flex-wrap: wrap;
+      gap: 15px;
     }
-    nav a {
-      margin-left: 0;
-      margin-right: 1rem;
+    .cards {
+      flex-direction: column;
+      gap: 40px;
     }
   }
+
 </style>
 </head>
 <body>
 
 <header>
-  <h1>iLearn - Best School Study Academy</h1>
-  <nav>
-    <a href="#" id="nav-home">Home</a>
-    <a href="#" id="nav-learning">Learning</a>
-    <a href="#" id="nav-gaming">Gaming</a>
-    <a href="#" id="nav-admin">Admins Only</a>
-  </nav>
+  <div class="container">
+    <div class="logo" aria-label="iLearn logo">iLearn</div>
+    <nav aria-label="Primary navigation">
+      <a href="#about">About</a>
+      <a href="#programs">Programs</a>
+      <a href="#resources">Resources</a>
+      <a href="#contact">Contact</a>
+      <a href="#" id="admin-link">Admins Only</a>
+    </nav>
+  </div>
 </header>
 
-<main>
-  <section id="section-home">
-    <h2>Welcome to iLearn</h2>
-    <p>Your trusted online academy dedicated to quality education. Start your learning journey with engaging courses, interactive lessons, and supportive community.</p>
-    <img class="classroom-img" src="https://images.unsplash.com/photo-1580584121721-c9ec12f2f1de?auto=format&fit=crop&w=900&q=80" alt="Classroom kids raising hands">
-  </section>
-
-  <section id="section-learning" class="section-hidden">
-    <h2>Learning Resources</h2>
-    <p>Explore study guides, video tutorials, and quizzes designed to help you master subjects with confidence.</p>
-    <img class="classroom-img" src="https://images.unsplash.com/photo-1596495577886-d920f1d8d19a?auto=format&fit=crop&w=900&q=80" alt="Students studying">
-  </section>
-
-  <section id="section-gaming" class="section-hidden">
-    <h2>Educational Games & Fun</h2>
-    <p>Engage with interactive and educational games that boost your brainpower while having fun!</p>
-    <img class="classroom-img" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=900&q=80" alt="Kids playing games">
-    <p>Join our <a href="https://discord.gg/Ht4GQKktHd" target="_blank" rel="noopener noreferrer">Discord community</a> for live events and game nights!</p>
-  </section>
-</main>
-
-<footer>
-  &copy; 2025 iLearn Academy. All rights reserved.
-</footer>
-
-<!-- Admin code modal -->
-<div id="admin-modal">
-  <div id="admin-content">
-    <h3>Enter Admin Access Code</h3>
-    <input type="text" id="admin-input" placeholder="Access code" autocomplete="off" />
-    <div class="btn-group">
-      <button id="admin-submit">Submit</button>
-      <button id="admin-cancel">Cancel</button>
-    </div>
-    <p id="admin-error">Incorrect code, try again.</p>
+<section class="hero">
+  <div class="hero-content" role="banner">
+    <h1>Welcome to iLearn</h1>
+    <p>Your best school study academy — where learning becomes an adventure!</p>
+    <button class="btn-primary" id="start-btn">Start Your Journey</button>
   </div>
+</section>
+
+<div class="container">
+
+  <section id="about" tabindex="0" aria-labelledby="about-heading">
+    <h2 id="about-heading">About iLearn</h2>
+    <p>We provide modern, fun, and effective learning programs designed to help students excel. Discover your passion and reach your full potential with our interactive resources.</p>
+    <div class="cards">
+      <article class="card" tabindex="0" role="article" aria-label="Interactive Learning">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=80&q=80" alt="Kids raising hands in classroom" />
+        <h3>Interactive Learning</h3>
+        <p>Engage with teachers and classmates in a supportive and dynamic environment.</p>
+      </article>
+      <article class="card" tabindex="0" role="article" aria-label="Personalized Study Plans">
+        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=80&q=80" alt="Student with a pencil" />
+        <h3>Personalized Study Plans</h3>
+        <p>Customizable paths to suit your learning style and goals.</p>
+      </article>
+      <article class="card" tabindex="0" role="article" aria-label="Resources Library">
+        <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=80&q=80" alt="Books and school supplies" />
+        <h3>Resources Library</h3>
+        <p>Access a vast collection of digital books, notes, and tutorials.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="programs" tabindex="0" aria-labelledby="programs-heading">
+    <h2 id="programs-heading">Our Programs</h2>
+    <p>From math to science, coding to art, we cover a wide range of subjects to spark curiosity and success.</p>
+    <div class="cards">
+      <article class="card" tabindex="0" role="article" aria-label="Math Mastery">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=80&q=80" alt="Math class in session" />
+        <h3>Math Mastery</h3>
+        <p>Learn foundational to advanced math concepts with interactive lessons.</p>
+      </article>
+      <article class="card" tabindex="0" role="article" aria-label="Science Exploration">
+        <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=80&q=80" alt="Science class experiment" />
+        <h3>Science Exploration</h3>
+        <p>Hands-on experiments and engaging content to fuel scientific thinking.</p>
+      </article>
+      <article class="card" tabindex="0" role="article" aria-label="Coding and Tech">
+        <img src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=80&q=80" alt="Student coding on laptop" />
+        <h3>Coding and Tech</h3>
+        <p>Get started with programming and technology skills for the future.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="resources" tabindex="0" aria-labelledby="resources-heading">
+    <h2 id="resources-heading">Resources</h2>
+    <p>Explore tutorials, practice quizzes, and helpful tools all in one place.</p>
+    <div class="cards">
+      <article class="card" tabindex="0" role="article" aria-label="Video Tutorials">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=80&q=80" alt="Video tutorials icon" />
+        <h3>Video Tutorials</h3>
+        <p>Step-by-step guides for complex topics.</p>
+      </article>
+      <article class="card" tabindex="0" role="article" aria-label="Practice Quizzes">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=80&q=80" alt="Quiz icon" />
+        <h3>Practice Quizzes</h3>
+        <p>Test your knowledge with interactive quizzes.</p>
+      </article>
+      <article class="card" tabindex="0" role="article" aria-label="Study Tools">
+        <img src="https://images.unsplash.com/photo-1527427330703-3959d6a2a0a0?auto=format&fit=crop&w=80&q=80" alt="Study tools icon" />
+        <h3>Study Tools</h3>
+        <p>Organize and optimize your study sessions.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" tabindex="0" aria-labelledby="contact-heading">
+    <h2 id="contact-heading">Contact Us</h2>
+    <p>Have questions or need help? Reach out anytime!</p>
+    <form aria-label="Contact form" style="max-width: 480px; margin: 0 auto;">
+      <label for="name" style="display:block; margin-bottom:6px; font-weight:600;">Name</label>
+      <input type="text" id="name" name="name" required style="width:100%; padding:10px; margin-bottom:20px; border-radius:5px; border:1px solid #ccc;" />
+      <label for="email" style="display:block; margin-bottom:6px; font-weight:600;">Email</label>
+      <input type="email" id="email" name="email" required style="width:100%; padding:10px; margin-bottom:20px; border-radius:5px; border:1px solid #ccc;" />
+      <label for="message" style="display:block; margin-bottom:6px; font-weight:600;">Message</label>
+      <textarea id="message" name="message" rows="5" required style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
+      <button type="submit" class="btn-primary" style="margin-top:10px;">Send Message</button>
+    </form>
+  </section>
+
 </div>
 
+<footer>
+  <p>© 2025 iLearn - Best School Study Academy</p>
+</footer>
+
+<!-- Floating pencils -->
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Crayon-Blue.svg/60px-Crayon-Blue.svg.png" alt="Blue pencil" class="floating-icon" aria-hidden="true" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Crayon-Red.svg/60px-Crayon-Red.svg.png" alt="Red pencil" class="floating-icon" aria-hidden="true" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Crayon-Green.svg/60px-Crayon-Green.svg.png" alt="Green pencil" class="floating-icon" aria-hidden="true" />
+
 <script>
-  // Elements
-  const navHome = document.getElementById('nav-home');
-  const navLearning = document.getElementById('nav-learning');
-  const navGaming = document.getElementById('nav-gaming');
-  const navAdmin = document.getElementById('nav-admin');
-
-  const sectionHome = document.getElementById('section-home');
-  const sectionLearning = document.getElementById('section-learning');
-  const sectionGaming = document.getElementById('section-gaming');
-
-  const adminModal = document.getElementById('admin-modal');
-  const adminInput = document.getElementById('admin-input');
-  const adminSubmit = document.getElementById('admin-submit');
-  const adminCancel = document.getElementById('admin-cancel');
-  const adminError = document.getElementById('admin-error');
-
-  function hideAllSections() {
-    sectionHome.classList.add('section-hidden');
-    sectionLearning.classList.add('section-hidden');
-    sectionGaming.classList.add('section-hidden');
-  }
-
-  function showSection(section) {
-    hideAllSections();
-    section.classList.remove('section-hidden');
-  }
-
-  navHome.addEventListener('click', e => {
+  // Admin code prompt logic
+  const adminLink = document.getElementById('admin-link');
+  adminLink.addEventListener('click', (e) => {
     e.preventDefault();
-    showSection(sectionHome);
-  });
-  navLearning.addEventListener('click', e => {
-    e.preventDefault();
-    showSection(sectionLearning);
-  });
-  navGaming.addEventListener('click', e => {
-    e.preventDefault();
-    showSection(sectionGaming);
-  });
-
-  navAdmin.addEventListener('click', e => {
-    e.preventDefault();
-    adminModal.style.display = 'flex';
-    adminInput.value = '';
-    adminError.style.display = 'none';
-    adminInput.focus();
-  });
-
-  adminCancel.addEventListener('click', () => {
-    adminModal.style.display = 'none';
-  });
-
-  adminSubmit.addEventListener('click', () => {
-    const code = adminInput.value.trim().toLowerCase();
-    if (code === 'radiationrules') {
-      // Redirect to secret.html
+    const code = prompt('Enter admin code:');
+    if (!code) return;
+    if (code.trim().toLowerCase() === 'radiationrules') {
       window.location.href = 'secret.html';
     } else {
-      adminError.style.display = 'block';
+      alert('Incorrect code.');
     }
   });
 
-  // Show home by default
-  showSection(sectionHome);
+  // Smooth scroll for nav links
+  document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Start button scrolls to about section
+  document.getElementById('start-btn').addEventListener('click', () => {
+    document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+  });
+
 </script>
 
 </body>
